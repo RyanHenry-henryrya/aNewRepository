@@ -1,0 +1,270 @@
+/*Java 2
+Name: Ryan Henry
+Date: Jan 21, 2019 12:00 PM
+
+Description
+A Bank account with basic functionality deposit and withdrawal functionality as
+well as a balance, customer name and account number associated with the account.
+    */
+package henryrya;
+
+/**
+ *Bank Account, contains an account number, customer name and balance. 
+ * @author Ryan Henry
+ */
+public class Account {
+    private String accountNo;
+    private String customerName;
+    private double balance;
+    
+    /**
+     * Instantiates a new Account Object.
+     * Sets the Account Number and Customer Name to the default values.
+     */
+    public Account() {
+        this.accountNo = "0000000";
+        this.customerName = "Unknown";
+    }
+
+    /**
+     * Instantiates a new Account Object.
+     * Sets the Account Number as long as it's a seven digit number.
+     * Sets the Customer Name as long as it is not null or of length zero.
+     * @param accountNo The Account number.
+     * @param customerName The customer name.
+     */
+    public Account(String accountNo, String customerName) {
+        if (accountNo.matches("^[0-9]{7}")){
+            this.accountNo = accountNo;
+        } else {
+            throw new IllegalArgumentException("Error: Account number must " +
+                    "be a 7 digit number.");
+        }
+        if (customerName == null || customerName.length() == 0){
+            throw new IllegalArgumentException("Error: You must enter the" + 
+                    " customer name.");
+        } else {
+            this.customerName = customerName;
+        }        
+    }
+    
+    /**
+     * Returns the account number.
+     * @return Returns the account number.
+     */
+    public String getAccountNo() {
+        return accountNo;
+    }
+    
+    /**
+     * Sets the Account Number as long as it is a seven digit number.
+     * @param accountNo The Account number.
+     */
+    public void setAccountNo(String accountNo) {
+        if (accountNo.matches("^[0-9]{7}$")){
+            this.accountNo = accountNo;
+        } else {
+            throw new IllegalArgumentException("Error: Account number must " +
+                    "be a 7 digit number.");
+        }
+    }
+
+    /**
+     * Returns the Customer Name.
+     * @return the Customer Name
+     */
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    /**
+     * Sets the Account Customer name, as long as it's not null or 
+     * of zero length.
+     * @param customerName the Customer Name
+     */
+    public void setCustomerName(String customerName) {
+        if (customerName == null || customerName.length() == 0){
+            throw new IllegalArgumentException("Error: You must enter the" + 
+                    " customer name.");
+        } else {
+            this.customerName = customerName;
+        }  
+    }
+
+    /**
+     * Returns the Account balance.
+     * @return the account balance
+     */
+    public double getBalance() {
+        return balance;
+    }
+
+    /**
+     * Sets the Account balance to a non-negative amount.
+     * @param balance the account balance
+     */
+    public void setBalance(double balance) {
+        if (balance < 0){
+            throw new IllegalArgumentException("Error: Account balance cannot" +
+                    " be a negative value.");
+        }else{
+            this.balance = balance;
+        }
+    }
+    
+    /**
+     * Withdraws a non-negative amount less than or equal to the balance;
+     * @param amount the amount to withdraw
+     */
+    public void withdraw(double amount){
+        if (amount > balance){
+            throw new IllegalArgumentException("Error: Account balance will" + 
+                    " be negative. Transaction is cancelled.");
+        }else if (amount < 0){
+            throw new IllegalArgumentException("Error: Withdraw amount cannot" +
+                    " be a negative number.");
+        } else {
+            balance -= amount;
+        }
+    }
+    
+    /**
+     * Deposits a non-negative amount to the Bank Account.
+     * @param amount the amount to deposit
+     */
+    public void deposit(double amount){
+        if (amount < 0){
+            throw new IllegalArgumentException("Error: Deposit amount cannot" +
+                    " be a negative number.");
+        } else {
+            balance += amount;
+        }
+    }
+
+    /**
+     * Prints all Bank Account details.
+     * @return returns a properly formatted String to be printed.
+     */
+    @Override
+    public String toString() {
+        return String.format("%n   Account no: %s%nCustomer name: %s%n      " + 
+                "Balance: $%.2f",accountNo,customerName,balance);
+    }
+    
+}
+/*
+    Name:  Ryan Henry
+    Assignment:  Assignment 1
+    Program: Computer Programmer
+    Date:  Jan 21, 2019 12:00 PM
+
+    Description:
+    A banking program that can create new bank accounts 
+    and store monetary values.
+*/
+
+package henryrya;
+import java.util.*;
+
+/**
+ *Creates a new bank account and asks for the account owner's information.
+ * @author Ryan Henry
+ */
+public class Banking{
+
+    /**
+     * Takes new Bank Account information and prints all Bank account details.
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Account newAccount = new Account();
+        getStringInput(newAccount);
+        getDoubleInput(newAccount);
+        System.out.println(newAccount);
+    }
+    
+    /**
+     * Gets and validates user input for a new Account, setting the String type 
+     * data members, accountNo and customerName.
+     * @param newAccount the new bank account to be initialized
+     */
+    public static void getStringInput(Account newAccount){
+        Scanner in = new Scanner(System.in);
+        boolean valid;
+        //a for loop to input for each method that takes a String
+        for (int method = 1; method <= 2; method++){
+            valid = true;
+            do{
+                try{
+                    //a switch statement to switch between methods
+                    switch (method){
+                        case 1:
+                            System.out.print("Enter Customer Name: ");
+                            newAccount.setCustomerName(in.nextLine());
+                            break;
+                        case 2:
+                            System.out.print("Enter Account Number: ");
+                            newAccount.setAccountNo(in.nextLine());
+                            break;
+                    }
+                    valid = false;
+                } catch (IllegalArgumentException ex){
+                    System.out.println(ex.getMessage());
+                }
+            } while (valid);
+        }
+        
+    }
+    
+    /**
+     * Gets and validates user input for a new Account, setting the double type 
+     * data member balance and also getting a deposit and withdrawal value.
+     * @param newAccount the new bank account to be initialized
+     */
+    public static void getDoubleInput(Account newAccount){
+        Scanner in = new Scanner(System.in);
+        boolean valid;
+        //for loop to enter input for each method that takes a double
+        for (int method = 1; method <=3; method++){ 
+            valid = true;
+            do{
+                try{
+                    //a switch statement to switch between methods
+                    switch (method){
+                            case 1:
+                                System.out.print("Enter initial balance: ");
+                                String input = validateDouble(in.next());
+                                newAccount.setBalance(Double.parseDouble(input));
+                                break;
+                            case 2:
+                                System.out.print("Enter deposit amount: ");
+                                input = validateDouble(in.next());
+                                newAccount.deposit(Double.parseDouble(input));
+                                break;
+                            case 3:
+                                System.out.print("Enter withdraw amount: ");
+                                input = validateDouble(in.next());
+                                newAccount.withdraw(Double.parseDouble(input));
+                                break;
+                    }
+                    valid = false;
+                } catch (InputMismatchException | IllegalArgumentException ex){
+                    System.out.println(ex.getMessage());
+                }
+            } while (valid);
+        }
+    }
+    /**
+     * Takes a String input and makes sure it is composed of only digits and up
+     * to one decimal place and throws an InputMismatchException otherwise.
+     * This is useful to tell if a String can be parsed to a double. 
+     * @param input a String intended to be parsed to a double
+     * @return only returns the same input String if the exception isn't thrown
+     */
+    public static String validateDouble(String input){
+        if (!((input.replaceFirst("[-.]","").matches("^[0-9]+$")))){
+            throw new InputMismatchException("Please enter a number.");
+        } else { return input; }
+    }
+
+}

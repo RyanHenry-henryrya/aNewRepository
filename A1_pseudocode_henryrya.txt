@@ -1,0 +1,9 @@
+Account class contructor
+- overloaded
+- throw an exception if inputted string isn't a 7 digit number (regex) -->
+make a validation method that throws and exception which will be caught 
+- recurse the function??
+
+^ don't know if that's ok, should I do just do it anyway and change it once i 
+find out
+Customer class
