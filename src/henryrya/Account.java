@@ -5,6 +5,8 @@ Date: Jan 21, 2019 12:00 PM
 Description
 A Bank account with basic functionality deposit and withdrawal functionality as
 well as a balance, customer name and account number associated with the account.
+
+this is my first git update
     */
 package henryrya;
 
